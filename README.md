@@ -108,6 +108,9 @@ to its right must not blindly execute it.
 
 Requires Python 3.11+. No network access needed at runtime.
 
+Registro de reproducción local y siguiente paso del proyecto académico
+(2026-11-14): [arranque local verificado](docs/local-setup.md).
+
 ```bash
 python -m venv .venv
 source .venv/bin/activate          # Windows: .venv\Scripts\Activate.ps1
