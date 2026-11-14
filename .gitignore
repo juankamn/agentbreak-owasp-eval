@@ -30,20 +30,36 @@ ENV/
 
 # Testing & coverage
 .pytest_cache/
+.ruff_cache/
+.mypy_cache/
 .coverage
 .coverage.*
 htmlcov/
 .tox/
 .cache
 
+# Local assistant/manager configuration
+.claude/
+.codex/
+.cursor/
+
+# Local environment configuration (keep reusable examples)
+.env
+.env.*
+!.env.example
+!.env.sample
+!.env.template
+
 # Editors
 .vscode/
 .idea/
 *.swp
 *.swo
+*~
 
 # OS
 .DS_Store
+._*
 Thumbs.db
 
 # Local artifacts produced by the demo

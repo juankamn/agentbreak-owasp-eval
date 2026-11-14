@@ -13,10 +13,19 @@ __pycache__
 
 .pytest_cache
 .ruff_cache
+.mypy_cache
 .coverage*
 htmlcov
 
+# Local assistant/manager and environment configuration
+.claude
+.codex
+.cursor
+.env
+.env.*
+
 .DS_Store
+._*
 .idea
 .vscode
 
