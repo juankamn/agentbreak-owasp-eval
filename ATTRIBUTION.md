@@ -24,3 +24,16 @@ documentar la instalación y ejecución, conservar evidencias verificadas y
 organizar el entorno de desarrollo. No se atribuye al equipo la creación de
 los laboratorios originales. Las extensiones futuras deberán distinguirse
 de esta línea base y documentar sus cambios.
+
+## Exploración de Jairo
+
+La rama `experiment/jairo-agent-security-ctf` identifica la experimentación
+personal de **Jairo Andrés Valencia** para preparar un laboratorio CTF de
+agentes de IA. Su README en español y el catálogo inicial describen una
+evolución propuesta; esta preparación todavía conserva el código ejecutable
+de AgentBreak sin cambios.
+
+La atribución a Christian Urcuqui y al repositorio original se mantiene en
+esta rama. Las contribuciones nuevas se distinguen mediante la documentación
+y el historial de cambios, sin atribuir al equipo la autoría del proyecto
+original.
