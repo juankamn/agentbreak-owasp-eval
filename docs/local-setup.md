@@ -5,6 +5,26 @@ laboratorio original para el proyecto académico de Jairo Valencia, Juan Camilo
 Macías y Ulises Caicedo. No modifica el protocolo entregado por el equipo ni
 constituye una evaluación de vulnerabilidad de modelos de lenguaje.
 
+## Ubicación actual del proyecto
+
+Después del arranque inicial, Jairo solicitó eliminar el nivel de carpeta
+adicional. El contenido del checkout está directamente en
+`agente-ia-ciberseguridad/`; ya no existe una subcarpeta `AgentBreak/`.
+Se conservaron Git, su historial, los documentos y todas las evidencias.
+El entorno `.venv` se recreó en la nueva raíz con Python 3.12.3 y las mismas
+versiones de dependencias, porque sus ejecutables y la instalación editable
+guardan referencias a la ubicación del proyecto.
+
+Los comandos de clonación siguientes documentan la disposición inicial.
+Los comandos de instalación, pruebas y servidor se ejecutan ahora desde
+`agente-ia-ciberseguridad/`, sin entrar a otra carpeta.
+
+Después del traslado se verificaron las 34 versiones de dependencias,
+la importación desde la nueva raíz y la conservación de las seis ejecuciones
+y los dos reportes locales. Pasaron las 26 pruebas existentes de escenarios
+y laboratorios web. El servidor volvió a responder HTTP 200 en `/`,
+`/owasp`, `/trust` y `/api/health`, en la misma URL local.
+
 ## Base y entorno
 
 - Original: <https://github.com/urcuqui/AgentBreak>, de Christian Urcuqui.
