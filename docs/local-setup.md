@@ -5,6 +5,38 @@ laboratorio original para el proyecto académico de Jairo Valencia, Juan Camilo
 Macías y Ulises Caicedo. No modifica el protocolo entregado por el equipo ni
 constituye una evaluación de vulnerabilidad de modelos de lenguaje.
 
+## Repositorio del equipo y primer arranque
+
+La primera versión del equipo se publica en la rama `main` de
+<https://github.com/juankamn/agentbreak-owasp-eval>. Reproduce AgentBreak
+0.2.0, del proyecto original de Christian Urcuqui. La procedencia y los
+créditos están en [ATTRIBUTION.md](../ATTRIBUTION.md).
+
+Desde una carpeta de trabajo, para instalar la réplica en otro equipo con
+Python 3.12 disponible:
+
+```bash
+git clone git@github.com:juankamn/agentbreak-owasp-eval.git
+cd agentbreak-owasp-eval
+python3.12 -m venv --prompt venv-ciberseguridad venv-ciberseguridad
+source venv-ciberseguridad/bin/activate
+python -m pip install -e '.[dev]' -c docs/validation/2026-11-14/dependencies.txt
+python -m pytest
+python -m agentbreak verify
+python -m agentbreak.cli serve --host 127.0.0.1 --port 8000
+```
+
+La clonación por SSH requiere una cuenta con acceso al repositorio y una
+clave configurada. También puede clonarse por HTTPS desde la página del
+repositorio. En Windows se activa el entorno con
+`venv-ciberseguridad\Scripts\Activate.ps1`. La disponibilidad de Python debe
+comprobarse en cada equipo; no asumir las rutas del Mac de la reproducción.
+
+Abrir <http://127.0.0.1:8000> y detener el servidor con `Ctrl+C`.
+El resto de esta guía conserva el registro del arranque original y las
+instrucciones detalladas de uso. Las referencias al estado previo a la
+publicación se mantienen como antecedentes fechados.
+
 ## Ubicación actual del proyecto
 
 Después del arranque inicial, Jairo solicitó eliminar el nivel de carpeta
@@ -57,9 +89,11 @@ se comprobaron; no se ejecutó el script de Windows en este Mac.
 - Commit clonado y ejecutado: `9effe7b6317a4e90b18ab895c06a2a47f8cb91c1`.
   Coincide con la revisión estática del 2026-11-02; no hubo cambios upstream
   que contrastar. Versión declarada: `0.2.0`; requisito: Python `>=3.11`.
-- Rama local de esta sesión: `trabajo/arranque-local-2026-11-14`. La rama
-  `main` conserva la base. No se modificó `src/`, el corpus original ni la
-  configuración de controles. No se publicó código ni se creó un remoto.
+- Rama usada para preparar el arranque: `trabajo/arranque-local-2026-11-14`.
+  La primera publicación se realiza después en `main`; el commit original
+  indicado arriba sigue disponible en el historial. No se modificó `src/`,
+  el corpus original ni la configuración de controles. El primer arranque
+  fue local; la publicación del equipo es un paso posterior autorizado.
 - macOS 27.2.1, Darwin arm64, 16 GiB de RAM, aproximadamente 27 GiB libres
   al inspeccionar el entorno. El directorio de trabajo estaba vacío y no era
   un repositorio. No se encontraron instrucciones `AGENTS.md` en sus ancestros

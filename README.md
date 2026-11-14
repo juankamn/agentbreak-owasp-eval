@@ -1,4 +1,33 @@
-# AgentBreak
+# AgentBreak OWASP Eval
+
+## Primera versión: réplica académica de AgentBreak
+
+Este repositorio parte de **[AgentBreak](https://github.com/urcuqui/AgentBreak),
+creado por Christian Urcuqui y sus colaboradores**. El crédito por los
+laboratorios, escenarios, herramientas simuladas y controles originales les
+corresponde a sus autores. Se conserva su historial de Git y la licencia MIT
+declarada por el proyecto. Véase [ATTRIBUTION.md](ATTRIBUTION.md).
+
+La base reproducida es AgentBreak **0.2.0**, commit
+[`9effe7b6317a4e90b18ab895c06a2a47f8cb91c1`](https://github.com/urcuqui/AgentBreak/commit/9effe7b6317a4e90b18ab895c06a2a47f8cb91c1).
+Esta primera versión contiene la réplica funcional, instrucciones de arranque,
+configuración del entorno y evidencias verificadas. Se mantienen intactos el
+código de los laboratorios, los datos y los cuatro casos originales.
+Todavía no incorpora un agente que tome decisiones mediante un LLM real ni
+la evaluación comparativa propuesta para una etapa posterior.
+
+Equipo académico: **Jairo Andrés Valencia, Juan Camilo Macías y Ulises
+Caicedo**, Maestría en Inteligencia Artificial Aplicada, Universidad Icesi.
+
+Para empezar, consultar la [guía de instalación y ejecución](docs/local-setup.md).
+La réplica inicial pasó 144 pruebas y los cuatro casos del gate de seguridad.
+Las [evidencias de la reproducción](docs/validation/2026-11-14) incluyen las
+ejecuciones normal/attack/secure y las capturas reales del navegador.
+
+La documentación original de AgentBreak se conserva a continuación, con los
+comandos del entorno adaptados a este repositorio.
+
+---
 
 > **AgentBreak demonstrates why protecting an AI agent requires more than
 > protecting its prompt: even if an attacker manipulates the model's
