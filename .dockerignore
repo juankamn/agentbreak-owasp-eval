@@ -5,6 +5,7 @@ Dockerfile*
 compose*.y*ml
 
 .venv
+venv-ciberseguridad
 venv
 __pycache__
 *.py[cod]

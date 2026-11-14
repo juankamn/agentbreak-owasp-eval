@@ -21,7 +21,7 @@ local folder.
 ```bash
 git clone https://github.com/urcuqui/AgentBreak.git
 cd AgentBreak
-python -m venv .venv && source .venv/bin/activate   # Windows: .venv\Scripts\activate
+python -m venv --prompt venv-ciberseguridad venv-ciberseguridad && source venv-ciberseguridad/bin/activate   # Windows: venv-ciberseguridad\Scripts\activate
 pip install -e ".[dev]"
 agentbreak verify          # should end with: SECURITY GATE: PASSED
 ```

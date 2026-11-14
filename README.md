@@ -112,8 +112,8 @@ Registro de reproducción local y siguiente paso del proyecto académico
 (2026-11-14): [arranque local verificado](docs/local-setup.md).
 
 ```bash
-python -m venv .venv
-source .venv/bin/activate          # Windows: .venv\Scripts\Activate.ps1
+python -m venv --prompt venv-ciberseguridad venv-ciberseguridad
+source venv-ciberseguridad/bin/activate  # Windows: venv-ciberseguridad\Scripts\Activate.ps1
 pip install -e ".[dev]"
 ```
 

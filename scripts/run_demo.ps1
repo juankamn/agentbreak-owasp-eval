@@ -4,10 +4,10 @@ $ErrorActionPreference = "Stop"
 $here = Split-Path -Parent $PSScriptRoot
 Set-Location $here
 
-if (-not (Test-Path ".venv")) {
-    python -m venv .venv
+if (-not (Test-Path "venv-ciberseguridad")) {
+    python -m venv --prompt venv-ciberseguridad venv-ciberseguridad
 }
-. .\.venv\Scripts\Activate.ps1
+. .\venv-ciberseguridad\Scripts\Activate.ps1
 
 python -m pip install --upgrade pip | Out-Null
 python -m pip install -e . | Out-Null

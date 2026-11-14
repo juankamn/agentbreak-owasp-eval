@@ -25,6 +25,32 @@ y los dos reportes locales. Pasaron las 26 pruebas existentes de escenarios
 y laboratorios web. El servidor volvió a responder HTTP 200 en `/`,
 `/owasp`, `/trust` y `/api/health`, en la misma URL local.
 
+## Nombre actual del entorno
+
+Por petición de Jairo, el entorno ahora se llama `venv-ciberseguridad`, tanto
+su carpeta como el nombre que muestra la terminal al activarlo. Se recreó
+con Python 3.12.3 y las versiones guardadas de las dependencias. README,
+Makefile y scripts de demostración usan ese nombre. La referencia a `.venv`
+en el registro inicial siguiente es histórica.
+
+```bash
+source venv-ciberseguridad/bin/activate
+```
+
+La terminal mostrará `(venv-ciberseguridad)`. Para salir del entorno, usar
+`deactivate`. Para recrearlo desde la raíz del proyecto, se ejecutó:
+
+```bash
+/usr/local/bin/python3.12 -m venv --prompt venv-ciberseguridad venv-ciberseguridad
+venv-ciberseguridad/bin/python -m pip install -e '.[dev]' -c docs/validation/2026-11-14/dependencies.txt
+```
+
+Se comprobaron la activación con ese nombre, las mismas 34 versiones y el
+gate original 4/4. Se retiró el entorno anterior `.venv` y se reinició el
+servidor con el nuevo; las dos páginas de laboratorio y salud respondieron
+HTTP 200. La sintaxis del script Bash y las rutas de `make serve` también
+se comprobaron; no se ejecutó el script de Windows en este Mac.
+
 ## Base y entorno
 
 - Original: <https://github.com/urcuqui/AgentBreak>, de Christian Urcuqui.
@@ -83,7 +109,7 @@ de este entorno, no un lockfile oficial de upstream.
 Arranque y reinicio, desde la raíz de AgentBreak:
 
 ```bash
-.venv/bin/python -m agentbreak.cli serve --host 127.0.0.1 --port 8000
+venv-ciberseguridad/bin/python -m agentbreak.cli serve --host 127.0.0.1 --port 8000
 ```
 
 URLs: <http://127.0.0.1:8000/>, <http://127.0.0.1:8000/owasp> y
@@ -96,7 +122,7 @@ Durante esta sesión también se ejecutó con registro de salida:
 ```bash
 mkdir -p logs
 set -o pipefail
-.venv/bin/python -m agentbreak.cli serve --host 127.0.0.1 --port 8000 2>&1 | tee -a logs/server.log
+venv-ciberseguridad/bin/python -m agentbreak.cli serve --host 127.0.0.1 --port 8000 2>&1 | tee -a logs/server.log
 ```
 
 Desde otra terminal se registró y se detuvo específicamente su proceso:
@@ -116,10 +142,10 @@ cierre de la shell de la herramienta. No se usa como mecanismo de arranque.
 También funcionaron estos comandos del laboratorio:
 
 ```bash
-.venv/bin/python -m agentbreak run indirect-injection --mode normal
-.venv/bin/python -m agentbreak run indirect-injection --mode attack
-.venv/bin/python -m agentbreak run indirect-injection --mode secure
-.venv/bin/python -m agentbreak.cli scan --report --no-journal
+venv-ciberseguridad/bin/python -m agentbreak run indirect-injection --mode normal
+venv-ciberseguridad/bin/python -m agentbreak run indirect-injection --mode attack
+venv-ciberseguridad/bin/python -m agentbreak run indirect-injection --mode secure
+venv-ciberseguridad/bin/python -m agentbreak.cli scan --report --no-journal
 curl --fail --max-time 5 -s http://127.0.0.1:8000/api/health
 ```
 
@@ -239,7 +265,7 @@ no se intentó corregir esa suposición en esta misión. Para reproducir el
 caso archivado sin mezclar otros JSON de evidencia:
 
 ```bash
-.venv/bin/python -m agentbreak verify --cases-dir docs/validation/2026-11-14/security_cases --report-dir logs/saved-case-verification
+venv-ciberseguridad/bin/python -m agentbreak verify --cases-dir docs/validation/2026-11-14/security_cases --report-dir logs/saved-case-verification
 ```
 
 Las salidas vivas habituales siguen en `artifacts/attack_report.{json,md}`,

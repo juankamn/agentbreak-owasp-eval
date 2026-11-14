@@ -2,7 +2,7 @@
 # Mirrors the commands documented in README.md, using a local virtualenv.
 
 PYTHON ?= python3
-VENV   := .venv
+VENV   := venv-ciberseguridad
 BIN    := $(VENV)/bin
 
 HOST ?= 127.0.0.1

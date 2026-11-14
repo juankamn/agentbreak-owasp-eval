@@ -23,6 +23,7 @@ wheels/
 
 # Virtual environments
 .venv/
+venv-ciberseguridad/
 venv/
 env/
 ENV/

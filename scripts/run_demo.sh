@@ -7,11 +7,11 @@ cd "$HERE"
 
 PYTHON="${PYTHON:-python3}"
 
-if [ ! -d ".venv" ]; then
-    "$PYTHON" -m venv .venv
+if [ ! -d "venv-ciberseguridad" ]; then
+    "$PYTHON" -m venv --prompt venv-ciberseguridad venv-ciberseguridad
 fi
 # shellcheck disable=SC1091
-. .venv/bin/activate
+. venv-ciberseguridad/bin/activate
 
 pip install --upgrade pip >/dev/null
 pip install -e . >/dev/null
