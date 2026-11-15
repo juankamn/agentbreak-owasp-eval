@@ -72,3 +72,8 @@ reports/*.json
 artifacts/*.md
 artifacts/*.json
 !artifacts/.gitkeep
+
+# Evaluation traces and generated figures stay out of git.
+runs/
+analysis/output/
+manifest/_article_extract.txt

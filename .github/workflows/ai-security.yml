@@ -26,10 +26,17 @@ jobs:
 
       - name: Install AgentBreak
         id: install
-        run: pip install -e ".[dev]"
+        run: pip install -e ".[dev,eval]"
+        env:
+          MPLBACKEND: Agg
 
       - name: Run test suite
         run: pytest
+        env:
+          MPLBACKEND: Agg
+
+      - name: Validate the evaluation catalog
+        run: python -m agentbreak.eval_lab.cli validate-catalog
 
       # Runs even if pytest failed, so a security regression still shows up as
       # SECURITY GATE: FAILED in the logs (the job fails either way).

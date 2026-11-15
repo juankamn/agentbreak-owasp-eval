@@ -1,0 +1,36 @@
+{
+  "rows": [
+    {
+      "model": "qwen2.5:7b",
+      "developer": "alibaba",
+      "valid_call_rate": 1.0,
+      "utility_rate": 0.3333333333333333,
+      "technical_failures": 0,
+      "median_latency_ms": 3522.3722000373527,
+      "fits": true,
+      "digest": "845dbda0ea48ed749caafd9e6037047aa19acfcfd82e704d7ca97d631a0b697e"
+    },
+    {
+      "model": "llama3.1:8b",
+      "developer": "meta",
+      "valid_call_rate": 1.0,
+      "utility_rate": 0.6666666666666666,
+      "technical_failures": 0,
+      "median_latency_ms": 3646.8130000284873,
+      "fits": true,
+      "digest": "46e0c10c039e019119339687c3c1757cc81b9da49709a3b3924863ba87ca666e"
+    }
+  ],
+  "decision": {
+    "models": [
+      "llama3.1:8b",
+      "qwen2.5:7b"
+    ],
+    "same_developer": false,
+    "rule": "two_developers"
+  },
+  "developers": {
+    "qwen2.5:7b": "alibaba",
+    "llama3.1:8b": "meta"
+  }
+}
