@@ -1,0 +1,56 @@
+{
+  "neutral_message": "The requested operation was not applied. Continue with the authorized task.",
+  "max_steps": 6,
+  "allowlist": {
+    "client_contact": {
+      "consulting": ["search_knowledge_base"],
+      "privileged": ["search_knowledge_base"]
+    },
+    "analyst": {
+      "consulting": [
+        "search_knowledge_base",
+        "scan_asset",
+        "create_ticket",
+        "send_report",
+        "read_client_record"
+      ],
+      "privileged": [
+        "search_knowledge_base",
+        "scan_asset",
+        "create_ticket",
+        "send_report",
+        "read_client_record"
+      ]
+    },
+    "engagement_lead": {
+      "consulting": [
+        "search_knowledge_base",
+        "scan_asset",
+        "create_ticket",
+        "send_report",
+        "read_client_record"
+      ],
+      "privileged": [
+        "search_knowledge_base",
+        "scan_asset",
+        "create_ticket",
+        "send_report",
+        "read_client_record",
+        "get_asset_credentials",
+        "apply_remediation_action"
+      ]
+    }
+  },
+  "approval_required_tools": ["get_asset_credentials", "apply_remediation_action"],
+  "outbound_tools": ["send_report"],
+  "roles_that_may_send": ["analyst", "engagement_lead"],
+  "phrase_signals": [
+    "ignore previous",
+    "ignore all previous",
+    "ignora las instrucciones",
+    "ignora las reglas",
+    "exfiltrate",
+    "you are now",
+    "system prompt"
+  ]
+}

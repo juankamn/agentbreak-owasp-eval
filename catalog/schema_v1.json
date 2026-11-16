@@ -1,0 +1,285 @@
+{
+  "$defs": {
+    "Document": {
+      "properties": {
+        "doc_id": {
+          "title": "Doc Id",
+          "type": "string"
+        },
+        "title": {
+          "title": "Title",
+          "type": "string"
+        },
+        "body": {
+          "title": "Body",
+          "type": "string"
+        }
+      },
+      "required": [
+        "doc_id",
+        "title",
+        "body"
+      ],
+      "title": "Document",
+      "type": "object"
+    },
+    "SurfaceContent": {
+      "properties": {
+        "user_message": {
+          "title": "User Message",
+          "type": "string"
+        },
+        "documents": {
+          "items": {
+            "$ref": "#/$defs/Document"
+          },
+          "title": "Documents",
+          "type": "array"
+        },
+        "scan_notes": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Scan Notes",
+          "type": "object"
+        }
+      },
+      "required": [
+        "user_message"
+      ],
+      "title": "SurfaceContent",
+      "type": "object"
+    },
+    "UtilityCheck": {
+      "properties": {
+        "required_tools": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Required Tools",
+          "type": "array"
+        },
+        "ticket_asset": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Ticket Asset"
+        },
+        "report_recipient": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Report Recipient"
+        },
+        "answer_contains_any": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Answer Contains Any",
+          "type": "array"
+        },
+        "remediation_asset": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Remediation Asset"
+        },
+        "credential_asset": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Credential Asset"
+        }
+      },
+      "title": "UtilityCheck",
+      "type": "object"
+    }
+  },
+  "properties": {
+    "template_id": {
+      "title": "Template Id",
+      "type": "string"
+    },
+    "partition": {
+      "enum": [
+        "calibration",
+        "evaluation"
+      ],
+      "title": "Partition",
+      "type": "string"
+    },
+    "stratum": {
+      "enum": [
+        "LLM01",
+        "LLM02",
+        "LLM03",
+        "BENIGN"
+      ],
+      "title": "Stratum",
+      "type": "string"
+    },
+    "family_id": {
+      "title": "Family Id",
+      "type": "string"
+    },
+    "surface": {
+      "enum": [
+        "user_message",
+        "retrieved_document",
+        "tool_output",
+        "none"
+      ],
+      "title": "Surface",
+      "type": "string"
+    },
+    "difficulty": {
+      "enum": [
+        "low",
+        "medium",
+        "high"
+      ],
+      "title": "Difficulty",
+      "type": "string"
+    },
+    "role": {
+      "enum": [
+        "client_contact",
+        "analyst",
+        "engagement_lead"
+      ],
+      "title": "Role",
+      "type": "string"
+    },
+    "engagement_id": {
+      "title": "Engagement Id",
+      "type": "string"
+    },
+    "task_type": {
+      "enum": [
+        "consulting",
+        "privileged"
+      ],
+      "title": "Task Type",
+      "type": "string"
+    },
+    "approval_granted": {
+      "title": "Approval Granted",
+      "type": "boolean"
+    },
+    "legitimate_task": {
+      "title": "Legitimate Task",
+      "type": "string"
+    },
+    "prohibited_calls": {
+      "items": {
+        "additionalProperties": {
+          "type": "string"
+        },
+        "type": "object"
+      },
+      "title": "Prohibited Calls",
+      "type": "array"
+    },
+    "prohibited_markers": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Prohibited Markers",
+      "type": "array"
+    },
+    "protected_assets": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Protected Assets",
+      "type": "array"
+    },
+    "authorized_report_recipients": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Authorized Report Recipients",
+      "type": "array"
+    },
+    "utility_check": {
+      "$ref": "#/$defs/UtilityCheck"
+    },
+    "secondary_labels": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Secondary Labels",
+      "type": "array"
+    },
+    "payload_marker": {
+      "default": "",
+      "title": "Payload Marker",
+      "type": "string"
+    },
+    "a0": {
+      "$ref": "#/$defs/SurfaceContent"
+    },
+    "a1": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/SurfaceContent"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "owasp_2026": {
+      "title": "Owasp 2026",
+      "type": "string"
+    },
+    "notes": {
+      "default": "",
+      "title": "Notes",
+      "type": "string"
+    }
+  },
+  "required": [
+    "template_id",
+    "partition",
+    "stratum",
+    "family_id",
+    "surface",
+    "difficulty",
+    "role",
+    "engagement_id",
+    "task_type",
+    "approval_granted",
+    "legitimate_task",
+    "utility_check",
+    "a0",
+    "owasp_2026"
+  ],
+  "title": "Template",
+  "type": "object"
+}

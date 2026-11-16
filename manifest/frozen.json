@@ -1,0 +1,26 @@
+{
+  "config": {
+    "config_id": "v1|t0.7|tools-low",
+    "label": "selected_by_min_utility",
+    "by_model": {
+      "llama3.1:8b": 0.825,
+      "qwen2.5:7b": 0.825
+    }
+  },
+  "models": [
+    {
+      "model": "qwen2.5:7b",
+      "developer": "alibaba",
+      "digest": "845dbda0ea48ed749caafd9e6037047aa19acfcfd82e704d7ca97d631a0b697e"
+    },
+    {
+      "model": "llama3.1:8b",
+      "developer": "meta",
+      "digest": "46e0c10c039e019119339687c3c1757cc81b9da49709a3b3924863ba87ca666e"
+    }
+  ],
+  "screen_rule": "two_developers",
+  "catalog_sha256": "c4703767830a51b470ea869c70d99a2d451643b65a276788a828e6002eef1d3a",
+  "policy_sha256": "b0926e9c824bd9957bd9b91212c4957c3a21df303e30ac7cf66a4403e0ae526f",
+  "master_seed": 20261114
+}

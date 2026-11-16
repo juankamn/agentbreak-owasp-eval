@@ -16,6 +16,14 @@ código de los laboratorios, los datos y los cuatro casos originales.
 Todavía no incorpora un agente que tome decisiones mediante un LLM real ni
 la evaluación comparativa propuesta para una etapa posterior.
 
+## Esta rama: evaluación SecureOps
+
+El párrafo anterior describe la réplica publicada en `main`. La rama
+`lab/secureops-eval` añade el laboratorio que compara al consultor con la
+política solo en el prompt (C0) y con los mismos cinco controles aplicados en
+código (C1). El código nuevo está en `src/agentbreak/eval_lab`. El manifiesto
+congelado está en `manifest/frozen.json`. Las trazas locales no se versionan.
+
 Equipo académico: **Jairo Andrés Valencia, Juan Camilo Macías y Ulises
 Caicedo**, Maestría en Inteligencia Artificial Aplicada, Universidad Icesi.
 
