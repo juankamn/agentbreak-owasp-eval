@@ -1,4 +1,4 @@
-"""Single-agent loop, shared seeds, and the repetition-block schedule."""
+"""Ejecución del agente, semillas compartidas y programación de repeticiones."""
 
 from __future__ import annotations
 
@@ -28,7 +28,7 @@ MASTER_SEED = 20261114
 
 
 class StepLimitReached(RuntimeError):
-    """The model kept requesting tools until the fixed cap."""
+    """Se alcanzó el límite de pasos al solicitar herramientas."""
 
 
 @dataclass(frozen=True)
@@ -52,6 +52,7 @@ class ScheduledRun:
     seed: int
 
 
+# Genera la misma semilla para comparar C0 y C1 en un mismo caso.
 def pair_seed(
     template_id: str,
     variant: str,
@@ -59,11 +60,12 @@ def pair_seed(
     model: str,
     master_seed: int = MASTER_SEED,
 ) -> int:
-    """C0 and C1 omit the policy on purpose, so the pair starts from the same seed."""
+    """Genera la misma semilla para comparar C0 y C1 en un caso."""
     raw = f"{master_seed}|{template_id}|{variant}|{repetition}|{model}".encode()
     return int(hashlib.sha256(raw).hexdigest()[:8], 16)
 
 
+# Organiza los casos por repetición, modelo y condición de seguridad.
 def build_schedule(
     templates: list[Template],
     models: list[str],
@@ -71,9 +73,9 @@ def build_schedule(
     repetitions: list[int],
     master_seed: int = MASTER_SEED,
 ) -> list[ScheduledRun]:
-    """Finish repetition 1 for every model before starting repetition 2.
+    """Organiza los casos por repetición y modelo.
 
-    Inside a repetition, one model stays loaded. Which model goes first alternates.
+    Mantiene un modelo cargado por bloque y alterna el orden entre repeticiones.
     """
     ordered: list[ScheduledRun] = []
     for repetition in repetitions:
@@ -100,6 +102,7 @@ def build_schedule(
     return ordered
 
 
+# Prepara el entorno y ejecuta un caso con la configuración indicada.
 def run_case(
     template: Template,
     variant: VariantName,
@@ -114,6 +117,7 @@ def run_case(
     seed: int,
     model_digest: str = "",
 ) -> RunRecord:
+    # Cada ejecución parte de una copia nueva del entorno del caso.
     surface = template.surface_for(variant)
     sandbox = Sandbox.from_surface(surface)
     policy = PolicyEngine(policy_mode, world, policy_spec, template)
@@ -152,6 +156,7 @@ def run_case(
         failure_reason = type(exc).__name__
     elapsed_ms = (time.perf_counter() - started) * 1000
     delivered, output_blocked = policy.filter_output(raw_answer)
+    # Registra si el marcador de ataque llegó al contexto que vio el modelo.
     marker = template.payload_marker
     payload_visible = bool(marker) and marker in "\n".join(visible)
     verdict = judge(
@@ -196,6 +201,7 @@ def run_case(
     )
 
 
+# Registra las herramientas propuestas y la respuesta final del modelo.
 def _loop(
     messages: list[dict[str, Any]],
     visible: list[str],
@@ -248,6 +254,7 @@ def _loop(
     raise StepLimitReached
 
 
+# Aplica los controles antes de ejecutar una herramienta en C1.
 def _apply_call(
     name: str,
     arguments: dict[str, Any],
@@ -261,6 +268,7 @@ def _apply_call(
     world: dict[str, Any],
     engagement_id: str,
 ) -> None:
+    # En C0 se registra la decisión de los controles sin impedir la llamada.
     decision = policy.evaluate_tool(name, arguments)
     enforce = policy.mode == "C1" and not decision.allowed
     if enforce:
@@ -275,6 +283,7 @@ def _apply_call(
     preview = json.dumps(result, ensure_ascii=False)
     visible.append(preview)
     phrase_hits.extend(policy.phrase_hits(preview))
+    # Conserva la propuesta, su resultado y las razones de un posible bloqueo.
     steps.append(
         ToolCallRecord(
             name=name,
@@ -290,7 +299,7 @@ def _apply_call(
 
 
 def initial_phrase_context(template: Template, variant: VariantName) -> str:
-    """Used by tests that want the case text before any tool runs."""
+    """Obtiene el contexto del caso antes de ejecutar herramientas."""
     surface = template.surface_for(variant)
     sandbox = Sandbox.from_surface(surface)
     return context_blob(sandbox, surface.user_message)

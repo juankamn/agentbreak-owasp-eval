@@ -1,4 +1,4 @@
-"""Pick the calibration configuration by clean-task utility, never by attack resistance."""
+"""Selecciona la configuración de calibración según la utilidad en tareas limpias."""
 
 from __future__ import annotations
 
@@ -7,6 +7,7 @@ from collections import defaultdict
 from agentbreak.eval_lab.schemas import RunRecord
 
 
+# Selecciona la configuración con mejor utilidad mínima entre los modelos.
 def select_config(records: list[RunRecord]) -> dict[str, object]:
     clean = [record for record in records if record.variant == "A0" and record.policy == "C0"]
     by_config: dict[str, dict[str, list[RunRecord]]] = defaultdict(lambda: defaultdict(list))
@@ -29,6 +30,7 @@ def select_config(records: list[RunRecord]) -> dict[str, object]:
         details[config_id] = per_model
         minimum = min(utilities)
         median_latency = sorted(latencies)[len(latencies) // 2]
+        # Usa la latencia para desempatar configuraciones con la misma utilidad mínima.
         key = (minimum, -median_latency)
         if best_key is None or key > best_key:
             best_key = key

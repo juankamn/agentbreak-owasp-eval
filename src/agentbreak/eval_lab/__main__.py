@@ -1,4 +1,4 @@
-"""Entry point for `python -m agentbreak.eval_lab`."""
+"""Punto de entrada para `python -m agentbreak.eval_lab`."""
 
 from agentbreak.eval_lab.cli import app
 

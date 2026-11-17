@@ -1,4 +1,4 @@
-"""Catalog and trace models. Validators live here so the JSON stays declarative."""
+"""Define los modelos del catálogo y de las trazas, junto con sus validaciones."""
 
 from __future__ import annotations
 

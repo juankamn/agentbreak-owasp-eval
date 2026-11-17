@@ -1,7 +1,7 @@
-"""Token overlap between calibration and evaluation attack payloads.
+"""Compara los textos de ataque de calibración y evaluación.
 
-The shared legitimate sentence is removed first. The audit asks whether an attack
-mechanism leaked from calibration into evaluation, not whether both ask for the runbook.
+Primero retira la frase de la tarea legítima compartida para comparar
+los mecanismos de ataque entre las dos particiones.
 """
 
 from __future__ import annotations

@@ -1,4 +1,4 @@
-"""Choose two local models from a screen. The Sunday rule is explicit when developers collide."""
+"""Selecciona dos modelos locales a partir de las pruebas iniciales."""
 
 from __future__ import annotations
 
@@ -21,7 +21,7 @@ def developer_of(model_name: str) -> str:
 
 
 def choose_models(rows: list[dict[str, object]], minimum_valid_rate: float = 0.5) -> dict[str, object]:
-    """Pick two models that fit. Prefer two developers. Otherwise say so."""
+    """Selecciona dos modelos que cumplan los criterios y prioriza desarrolladores distintos."""
     fitting = [
         row
         for row in rows

@@ -1,4 +1,4 @@
-"""Structural checks for the 120-template bank. They do not score model behavior."""
+"""Verifica la estructura del catálogo de 120 plantillas."""
 
 from __future__ import annotations
 
@@ -14,6 +14,7 @@ class CatalogError(ValueError):
     pass
 
 
+# Verifica la cantidad de casos, su distribución y la separación entre particiones.
 def validate_templates(templates: list[Template]) -> None:
     errors: list[str] = []
     if len(templates) != 120:
@@ -43,6 +44,7 @@ def validate_templates(templates: list[Template]) -> None:
         raise CatalogError("\n".join(errors))
 
 
+# Comprueba que cada familia tenga los casos y la superficie previstos.
 def _families(errors: list[str], templates: list[Template], expected: dict[str, list[str]]) -> None:
     found: dict[str, list[str]] = {}
     for item in templates:
@@ -72,6 +74,7 @@ def _surfaces(errors: list[str], evaluation: list[Template]) -> None:
             errors.append(f"evaluation surface {surface} has {count} attack templates")
 
 
+# Verifica que el marcador de ataque aparezca en la variante correspondiente.
 def _payload(errors: list[str], template: Template) -> None:
     if template.stratum == "BENIGN":
         return

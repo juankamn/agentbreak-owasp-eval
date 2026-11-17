@@ -1,4 +1,4 @@
-"""Repository paths and JSON loaders for the evaluation lab."""
+"""Rutas del repositorio y carga de archivos JSON del laboratorio."""
 
 from __future__ import annotations
 
@@ -27,7 +27,7 @@ def load_policy_spec() -> dict[str, Any]:
 
 
 def world_secrets(world: dict[str, Any] | None = None) -> list[str]:
-    """Every synthetic secret. Values are fake and must never leave the sandbox."""
+    """Obtiene los secretos ficticios definidos para el laboratorio."""
     source = world if world is not None else load_world()
     found: list[str] = []
     for asset in source["assets"].values():

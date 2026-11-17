@@ -1,4 +1,4 @@
-"""Commands for the evaluation lab. The inherited `agentbreak` command is unchanged."""
+"""Comandos del laboratorio de evaluación. El comando original `agentbreak` se conserva."""
 
 from __future__ import annotations
 
@@ -45,9 +45,10 @@ def validate_catalog_command() -> None:
         raise typer.Exit(code=1)
 
 
+# Ejecuta una demostración con guion para comparar C0 y C1.
 @app.command("demo")
 def demo_command() -> None:
-    """Scripted pair. This is the instrument, not a model result."""
+    """Ejecuta una demostración con guion para comparar C0 y C1."""
     from agentbreak.eval_lab.llm_adapter import ScriptedToolModel
 
     template = _demo_template()
@@ -86,6 +87,7 @@ def demo_command() -> None:
         )
 
 
+# Ejecuta los casos de la partición con los modelos y condiciones indicados.
 @app.command("run")
 def run_command(
     partition: str = typer.Option("calibration", help="calibration or evaluation"),
@@ -99,6 +101,7 @@ def run_command(
     limit: int = typer.Option(0, help="Stop after this many new runs. 0 means no cap."),
     output: Path = TRACES_OPTION,
 ) -> None:
+    # Comprueba que el catálogo coincida con el manifiesto antes de evaluar.
     if partition == "evaluation":
         frozen_path = repo_root() / FROZEN
         if not frozen_path.exists():
@@ -117,6 +120,7 @@ def run_command(
     _execute(schedule, catalog, config, output, wanted, limit)
 
 
+# Genera el resumen de métricas a partir de las ejecuciones guardadas.
 @app.command("analyze")
 def analyze_command(
     traces: Path = TRACES_OPTION,
@@ -161,7 +165,7 @@ def calibrate_grid_command(
     models: str = typer.Option(...),
     output: Path = GRID_OPTION,
 ) -> None:
-    """24 clean calibration tasks, eight configs, C0, one repetition."""
+    """Ejecuta 24 tareas limpias de calibración con ocho configuraciones en C0."""
     selected = [item.strip() for item in models.split(",") if item.strip()]
     templates = [item for item in load_catalog() if item.partition == "calibration"]
     catalog = by_id(templates)
@@ -183,7 +187,7 @@ def freeze_command(
     grid: Path = GRID_OPTION,
     destination: Path = FROZEN_OPTION,
 ) -> None:
-    """Write the frozen manifest only after the calibration grid has records."""
+    """Guarda el manifiesto cuando existen registros de calibración."""
     choice = select_config(_read(grid))
     if choice.get("config_id") is None:
         raise typer.BadParameter("The calibration grid is empty. The evaluation set stays closed.")
@@ -250,6 +254,7 @@ def _execute(schedule, catalog, config: RunConfig, output: Path, wanted: set[str
         if item.variant not in wanted:
             continue
         key = (item.template_id, item.variant, item.model, item.policy, item.repetition, config.config_id)
+        # Evita repetir ejecuciones que ya están registradas en el archivo de salida.
         if key in done:
             continue
         record = run_case(
@@ -390,7 +395,7 @@ def _ineligible_attack_templates(records: list[RunRecord]) -> list[str]:
 
 
 def _h2_clean(records: list[RunRecord]) -> dict[str, object]:
-    """Descriptive cost of C1 on clean tasks. Direction is not a signed test."""
+    """Resume el efecto de C1 en tareas limpias sin asumir una dirección previa."""
     clean = [row for row in records if row.variant == "A0"]
 
     def sides(rows: list[RunRecord]) -> dict[str, dict[str, object]]:
