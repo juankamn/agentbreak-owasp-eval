@@ -1,6 +1,6 @@
 # AgentBreak OWASP Eval
 
-## Primera versión: réplica académica de AgentBreak
+## Sobre el proyecto
 
 Este repositorio parte de **[AgentBreak](https://github.com/urcuqui/AgentBreak),
 creado por Christian Urcuqui y sus colaboradores**. El crédito por los
@@ -10,19 +10,10 @@ declarada por el proyecto. Véase [ATTRIBUTION.md](ATTRIBUTION.md).
 
 La base reproducida es AgentBreak **0.2.0**, commit
 [`9effe7b6317a4e90b18ab895c06a2a47f8cb91c1`](https://github.com/urcuqui/AgentBreak/commit/9effe7b6317a4e90b18ab895c06a2a47f8cb91c1).
-Esta primera versión contiene la réplica funcional, instrucciones de arranque,
-configuración del entorno y evidencias verificadas. Se mantienen intactos el
-código de los laboratorios, los datos y los cuatro casos originales.
-Todavía no incorpora un agente que tome decisiones mediante un LLM real ni
-la evaluación comparativa propuesta para una etapa posterior.
-
-## Esta rama: evaluación SecureOps
-
-El párrafo anterior describe la réplica publicada en `main`. La rama
-`lab/secureops-eval` añade el laboratorio que compara al consultor con la
-política solo en el prompt (C0) y con los mismos cinco controles aplicados en
-código (C1). El código nuevo está en `src/agentbreak/eval_lab`. El manifiesto
-congelado está en `manifest/frozen.json`. Las trazas locales no se versionan.
+La primera etapa reprodujo los laboratorios originales y documentó su ejecución.
+Sobre esa base, el equipo desarrolló **SecureOps**, un laboratorio para evaluar
+un agente consultor de ciberseguridad que usa modelos de lenguaje y herramientas
+simuladas. La extensión ya está integrada en `main`.
 
 Equipo académico: **Jairo Andrés Valencia, Juan Camilo Macías y Ulises
 Caicedo**, Maestría en Inteligencia Artificial Aplicada, Universidad Icesi.
@@ -34,6 +25,56 @@ ejecuciones normal/attack/secure y las capturas reales del navegador.
 
 La documentación original de AgentBreak se conserva a continuación, con los
 comandos del entorno adaptados a este repositorio.
+
+## Extensión SecureOps
+
+SecureOps compara dos condiciones para un mismo caso: **C0**, con las reglas
+de seguridad en las instrucciones del modelo, y **C1**, que añade controles
+externos sobre las herramientas y la respuesta. El catálogo reúne 120
+plantillas: 40 de calibración y 80 de evaluación. Incluye casos de inyección
+de instrucciones, divulgación de información, agencia excesiva y tareas benignas.
+
+Las partes principales de la extensión son:
+
+- `src/agentbreak/eval_lab/`: ejecución del agente, herramientas, controles y evaluación.
+- `catalog/`: plantillas de calibración y evaluación.
+- `data/eval/`: clientes, activos ficticios, políticas y casos de selección de modelos.
+- `analysis/`: cálculos de métricas, selección de configuración y gráficas.
+- `tests/eval_lab/`: pruebas del laboratorio.
+- `manifest/`: información de modelos y configuración registrada para el experimento.
+
+El resto del repositorio conserva los laboratorios, recursos y pruebas de
+AgentBreak. Aunque no todos se usan en SecureOps, se mantienen como parte de
+la base original y de su historial.
+
+### Probar SecureOps
+
+Desde la raíz del proyecto, con Python 3.11 o superior:
+
+```bash
+python -m venv venv-ciberseguridad
+source venv-ciberseguridad/bin/activate
+pip install -e '.[dev,eval]'
+python -m agentbreak.eval_lab validate-catalog
+python -m agentbreak.eval_lab demo
+python -m pytest tests/eval_lab -q
+```
+
+La demostración usa respuestas preparadas para mostrar la diferencia entre C0
+y C1; no consulta un modelo. Para ejecutar casos con un modelo real se necesita
+Ollama en funcionamiento y un modelo descargado, por ejemplo `llama3.1:8b`:
+
+```bash
+python -m agentbreak.eval_lab run --partition calibration \
+  --models llama3.1:8b --policies C0,C1 --variants A0,A1 \
+  --limit 4 --output runs/prueba-local.jsonl
+```
+
+Los resultados se guardan en JSONL y las trazas locales no se versionan.
+Para ver las demás opciones, usar `python -m agentbreak.eval_lab --help`.
+La ejecución de la partición de evaluación verifica que el catálogo coincida
+con el manifiesto; la discrepancia observada en esta copia está pendiente de
+revisión con el equipo antes de repetir la evaluación final.
 
 ---
 

@@ -9,6 +9,7 @@ from agentbreak.eval_lab.schemas import RunRecord
 
 
 def run_key(record: RunRecord) -> tuple[str, str, str, str, int, str]:
+    # Identifica una ejecución para poder retomar una corrida interrumpida.
     return (
         record.template_id,
         record.variant,
@@ -34,6 +35,7 @@ def completed_keys(path: Path) -> set[tuple[str, str, str, str, int, str]]:
 
 
 def append_record(path: Path, record: RunRecord) -> None:
+    # Agrega cada resultado en una línea para conservar las ejecuciones previas.
     path.parent.mkdir(parents=True, exist_ok=True)
     with path.open("a", encoding="utf-8") as handle:
         handle.write(json.dumps(record.model_dump(), ensure_ascii=False) + "\n")

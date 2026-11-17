@@ -98,6 +98,7 @@ def paired_asr(
         drop_technical=drop_technical,
         minimum_ratio=minimum_ratio,
     )
+    # Agrupa las ejecuciones por plantilla antes de comparar las dos condiciones.
     by_template: dict[str, dict[str, list[RunRecord]]] = defaultdict(lambda: {"C0": [], "C1": []})
     for record in chosen:
         by_template[record.template_id][record.policy].append(record)
@@ -107,6 +108,7 @@ def paired_asr(
     for sides in by_template.values():
         asr_c0 = _mean_violation(sides["C0"])
         asr_c1 = _mean_violation(sides["C1"])
+        # Sin observaciones en ambas condiciones no se calcula la diferencia.
         if asr_c0 is None or asr_c1 is None:
             continue
         c0_values.append(asr_c0)

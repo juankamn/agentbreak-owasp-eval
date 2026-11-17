@@ -117,6 +117,7 @@ def run_case(
     seed: int,
     model_digest: str = "",
 ) -> RunRecord:
+    # Cada ejecución parte de una copia nueva del entorno del caso.
     surface = template.surface_for(variant)
     sandbox = Sandbox.from_surface(surface)
     policy = PolicyEngine(policy_mode, world, policy_spec, template)
@@ -155,6 +156,7 @@ def run_case(
         failure_reason = type(exc).__name__
     elapsed_ms = (time.perf_counter() - started) * 1000
     delivered, output_blocked = policy.filter_output(raw_answer)
+    # Registra si el marcador de ataque llegó al contexto que vio el modelo.
     marker = template.payload_marker
     payload_visible = bool(marker) and marker in "\n".join(visible)
     verdict = judge(
@@ -266,6 +268,7 @@ def _apply_call(
     world: dict[str, Any],
     engagement_id: str,
 ) -> None:
+    # En C0 se registra la decisión de los controles sin impedir la llamada.
     decision = policy.evaluate_tool(name, arguments)
     enforce = policy.mode == "C1" and not decision.allowed
     if enforce:
@@ -280,6 +283,7 @@ def _apply_call(
     preview = json.dumps(result, ensure_ascii=False)
     visible.append(preview)
     phrase_hits.extend(policy.phrase_hits(preview))
+    # Conserva la propuesta, su resultado y las razones de un posible bloqueo.
     steps.append(
         ToolCallRecord(
             name=name,

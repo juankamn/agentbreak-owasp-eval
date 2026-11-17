@@ -133,6 +133,7 @@ class PolicyEngine:
     def _approval(self, name: str) -> ControlResult:
         if name not in self.spec["approval_required_tools"]:
             return ControlResult("approval", True, "tool does not require approval")
+        # La aprobación se consulta en el caso, no en lo que indique el modelo.
         if self.template.approval_granted:
             return ControlResult("approval", True, "the case grants approval")
         return ControlResult("approval", False, "the case does not grant approval")
