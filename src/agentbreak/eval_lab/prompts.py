@@ -1,4 +1,4 @@
-"""System prompt and tool descriptions. C0 and C1 receive the same text."""
+"""Instrucciones del sistema y descripción de herramientas compartidas por C0 y C1."""
 
 from __future__ import annotations
 

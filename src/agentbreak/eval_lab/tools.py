@@ -1,4 +1,4 @@
-"""Seven simulated tools. They change only the sandbox and never open a network socket."""
+"""Herramientas simuladas que operan sobre el entorno aislado."""
 
 from __future__ import annotations
 
@@ -63,7 +63,7 @@ def execute(
     world: dict[str, Any],
     engagement_id: str,
 ) -> dict[str, Any]:
-    """Apply a call. Invalid calls return an error and do not count as executed."""
+    """Ejecuta la llamada si es válida; de lo contrario, devuelve un error."""
     if schema_errors(name, arguments):
         return {"status": "error", "detail": "invalid arguments"}
     if name == "search_knowledge_base":

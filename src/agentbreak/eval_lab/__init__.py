@@ -1,4 +1,4 @@
-"""Evaluation lab for the SecureOps consultant. Inherited AgentBreak modules stay unchanged."""
+"""Laboratorio de evaluación del consultor SecureOps."""
 
 __all__ = ["__version__"]
 

@@ -1,4 +1,4 @@
-"""Load the frozen catalog. Screen probes stay outside these folders."""
+"""Carga el catálogo de casos. Las pruebas de selección de modelos están fuera de estas carpetas."""
 
 from __future__ import annotations
 

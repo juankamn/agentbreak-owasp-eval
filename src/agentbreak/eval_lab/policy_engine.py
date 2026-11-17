@@ -1,7 +1,7 @@
-"""C0 passes proposals through. C1 applies five deterministic controls, all of them.
+"""En C0 se permiten las propuestas; en C1 se aplican cinco controles.
 
-Phrase hits are recorded and never decide the gate. The approval flag comes from
-the case. A field in the model arguments cannot grant it.
+Las frases detectadas se registran sin decidir el bloqueo. La aprobación
+proviene del caso y no de los argumentos enviados por el modelo.
 """
 
 from __future__ import annotations
@@ -57,8 +57,9 @@ class PolicyEngine:
         blob = "\n".join(chunks).lower()
         return [phrase for phrase in self.spec["phrase_signals"] if phrase in blob]
 
+    # Revisa los cinco controles y reúne los motivos de bloqueo.
     def evaluate_tool(self, name: str, arguments: Any) -> GateDecision:
-        """Always returns five controls. Callers must not stop at the first failure."""
+        """Evalúa los cinco controles y reúne sus resultados."""
         controls = [
             self._allowlist(name),
             self._schema_and_scope(name, arguments),
@@ -72,13 +73,15 @@ class PolicyEngine:
             phrase_hits=[],
         )
 
+    # Retiene la respuesta final en C1 si contiene un secreto conocido.
     def filter_output(self, answer: str) -> tuple[str, bool]:
-        """C1 withholds a final answer that carries a known secret. C0 delivers it."""
+        """Retiene en C1 una respuesta que contenga un secreto conocido."""
         leaked = contains_secret(answer, self.secrets) is not None
         if self.mode == "C1" and leaked:
             return self.spec["neutral_message"], True
         return answer, False
 
+    # Verifica si el rol puede usar la herramienta para la tarea indicada.
     def _allowlist(self, name: str) -> ControlResult:
         role_rules = self.spec["allowlist"][self.template.role]
         allowed_names = role_rules[self.template.task_type]
@@ -86,6 +89,7 @@ class PolicyEngine:
             return ControlResult("allowlist", True, "tool is allowed for the role and task")
         return ControlResult("allowlist", False, "tool is outside the role and task allowlist")
 
+    # Valida los argumentos y comprueba que el activo pertenezca al encargo.
     def _schema_and_scope(self, name: str, arguments: Any) -> ControlResult:
         errors = schema_errors(name, arguments, strict=True)
         if errors:
@@ -101,6 +105,7 @@ class PolicyEngine:
             return ControlResult("schema_scope", False, "client is outside the engagement")
         return ControlResult("schema_scope", True, "arguments match the schema and the engagement")
 
+    # Busca secretos conocidos en los argumentos de la herramienta.
     def _secrets_in_arguments(self, arguments: Any) -> ControlResult:
         if not isinstance(arguments, dict):
             return ControlResult("secrets", True, "no argument strings to inspect")
@@ -110,6 +115,7 @@ class PolicyEngine:
             return ControlResult("secrets", True, "no known secret in the arguments")
         return ControlResult("secrets", False, "a known secret is present in the arguments")
 
+    # Comprueba si el destinatario del reporte está autorizado.
     def _egress(self, name: str, arguments: Any) -> ControlResult:
         if name not in self.spec["outbound_tools"]:
             return ControlResult("egress", True, "not an outbound tool")
@@ -123,6 +129,7 @@ class PolicyEngine:
             return ControlResult("egress", True, "recipient is on the engagement list")
         return ControlResult("egress", False, "recipient is not on the engagement list")
 
+    # Verifica la aprobación registrada en el caso para las acciones que la requieren.
     def _approval(self, name: str) -> ControlResult:
         if name not in self.spec["approval_required_tools"]:
             return ControlResult("approval", True, "tool does not require approval")

@@ -1,4 +1,4 @@
-"""Family partition fixed before any run. Calibration and evaluation do not share a family."""
+"""Define las familias de calibración y evaluación en particiones separadas."""
 
 from __future__ import annotations
 

@@ -1,4 +1,4 @@
-"""Figures for a finished trace file. An empty file produces no numbers."""
+"""Genera gráficas a partir de las trazas. Si el archivo está vacío, no produce cifras."""
 
 from __future__ import annotations
 

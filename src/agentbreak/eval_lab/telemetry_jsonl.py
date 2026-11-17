@@ -1,4 +1,4 @@
-"""Append-only JSONL traces and resume keys."""
+"""Guarda trazas en JSONL e identifica ejecuciones ya registradas."""
 
 from __future__ import annotations
 

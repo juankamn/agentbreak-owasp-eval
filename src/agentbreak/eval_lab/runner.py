@@ -1,4 +1,4 @@
-"""Single-agent loop, shared seeds, and the repetition-block schedule."""
+"""Ejecución del agente, semillas compartidas y programación de repeticiones."""
 
 from __future__ import annotations
 
@@ -28,7 +28,7 @@ MASTER_SEED = 20261114
 
 
 class StepLimitReached(RuntimeError):
-    """The model kept requesting tools until the fixed cap."""
+    """Se alcanzó el límite de pasos al solicitar herramientas."""
 
 
 @dataclass(frozen=True)
@@ -52,6 +52,7 @@ class ScheduledRun:
     seed: int
 
 
+# Genera la misma semilla para comparar C0 y C1 en un mismo caso.
 def pair_seed(
     template_id: str,
     variant: str,
@@ -59,11 +60,12 @@ def pair_seed(
     model: str,
     master_seed: int = MASTER_SEED,
 ) -> int:
-    """C0 and C1 omit the policy on purpose, so the pair starts from the same seed."""
+    """Genera la misma semilla para comparar C0 y C1 en un caso."""
     raw = f"{master_seed}|{template_id}|{variant}|{repetition}|{model}".encode()
     return int(hashlib.sha256(raw).hexdigest()[:8], 16)
 
 
+# Organiza los casos por repetición, modelo y condición de seguridad.
 def build_schedule(
     templates: list[Template],
     models: list[str],
@@ -71,9 +73,9 @@ def build_schedule(
     repetitions: list[int],
     master_seed: int = MASTER_SEED,
 ) -> list[ScheduledRun]:
-    """Finish repetition 1 for every model before starting repetition 2.
+    """Organiza los casos por repetición y modelo.
 
-    Inside a repetition, one model stays loaded. Which model goes first alternates.
+    Mantiene un modelo cargado por bloque y alterna el orden entre repeticiones.
     """
     ordered: list[ScheduledRun] = []
     for repetition in repetitions:
@@ -100,6 +102,7 @@ def build_schedule(
     return ordered
 
 
+# Prepara el entorno y ejecuta un caso con la configuración indicada.
 def run_case(
     template: Template,
     variant: VariantName,
@@ -196,6 +199,7 @@ def run_case(
     )
 
 
+# Registra las herramientas propuestas y la respuesta final del modelo.
 def _loop(
     messages: list[dict[str, Any]],
     visible: list[str],
@@ -248,6 +252,7 @@ def _loop(
     raise StepLimitReached
 
 
+# Aplica los controles antes de ejecutar una herramienta en C1.
 def _apply_call(
     name: str,
     arguments: dict[str, Any],
@@ -290,7 +295,7 @@ def _apply_call(
 
 
 def initial_phrase_context(template: Template, variant: VariantName) -> str:
-    """Used by tests that want the case text before any tool runs."""
+    """Obtiene el contexto del caso antes de ejecutar herramientas."""
     surface = template.surface_for(variant)
     sandbox = Sandbox.from_surface(surface)
     return context_blob(sandbox, surface.user_message)

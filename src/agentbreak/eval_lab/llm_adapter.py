@@ -1,4 +1,4 @@
-"""Model adapters. Tests use the scripted model. Ollama is imported only when called."""
+"""Adaptadores para el modelo con guion y los modelos locales de Ollama."""
 
 from __future__ import annotations
 
@@ -32,7 +32,7 @@ class ChatModel(Protocol):
 
 
 class ScriptedToolModel:
-    """Returns a fixed script. Each chat() consumes one turn and stops on the last one."""
+    """Devuelve respuestas de un guion y avanza un turno en cada llamada."""
 
     def __init__(self, turns: list[dict[str, Any]]) -> None:
         if not turns:
@@ -64,7 +64,7 @@ class ScriptedToolModel:
 
 
 class OllamaToolModel:
-    """One local model, called through langchain-ollama bind_tools."""
+    """Conecta un modelo local mediante langchain-ollama y sus herramientas."""
 
     def __init__(self, model_name: str) -> None:
         self.model_name = model_name
